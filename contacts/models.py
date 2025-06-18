@@ -2,7 +2,7 @@ import uuid
 
 # defines contact model
 class Contact:
-    def __init__(self, first_name, last_name, number, email, tags=None):
+    def __init__(self, first_name, last_name, number=None, email=None, tags=None):
         self.id = uuid.uuid4() # creates an internal unique id for each contact
         self.first_name = first_name
         self.last_name = last_name
