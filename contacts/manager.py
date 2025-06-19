@@ -6,8 +6,7 @@ class ContactManager:
     def __init__(self):
         self.contacts = []
         
-    def add(self, first_name, last_name, number, email, tags):
-        contact = Contact(first_name, last_name, number, email, tags)
+    def add(self, contact):
         self.contacts.append(contact)
         
     def get(self, first_name, last_name):
@@ -38,9 +37,17 @@ class ContactManager:
             contact.tags = tags
             
     
-    def sort(self, by):
-        # TODO: write sorting algo
-        return
+    def sort(self):
+        """Sorts the contacts list and returns the sorted list. The original list remains unchanged.
+
+        Returns:
+            list: the sorted list
+        """
+        temp = self.contacts
+        self.contacts.sort()
+        sorted_contacts = self.contacts
+        self.contacts = temp
+        return sorted_contacts
     
     def search(self, text):
         # write search algo for partial strings
@@ -62,3 +69,17 @@ class ContactManager:
             json.dump(contacts_output, f, indent=4)
             
         print("Wrote contact info to", file_name)
+        
+    def display(self):
+        # title
+        print(("#" * 31) + "CONTACTS" + ("#" * 31))
+        # header
+        print("{0: <12} | {1: <12} | {2: <14} | {3: <12}".format("First Name", "Last Name", "Phone Number", "Email"))
+        print("-" * 70)
+        for contact in self.contacts:
+            number_list = [d for d in str(contact.number)]
+            
+            # construct number with formatting
+            number = "(" + number_list[0] + number_list[1] + number_list[2] + ") " + number_list[3] + number_list[4] + number_list[5] + " " + number_list[6] + number_list[7] + number_list[8] + number_list[9]
+            print("{0: <12} | {1: <12} | {2: <14} | {3: <12}".format(contact.first_name, contact.last_name, number, contact.email))
+        print("#" * 70)
