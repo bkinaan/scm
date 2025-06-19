@@ -21,11 +21,11 @@ class Contact:
             if self.first_name == other.first_name:
                 return self.id < other.id
             return self.first_name < other.first_name
-        return self.last_name < other.first_name
+        return self.last_name < other.last_name
         
     def __gt__(self, other):
         if self.last_name == other.last_name:
             if self.first_name == other.first_name:
                 return self.id > other.id
             return self.first_name > other.first_name
-        return self.last_name > other.first_name
+        return self.last_name > other.last_name
