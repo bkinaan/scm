@@ -1,27 +1,33 @@
 import json
 from .models import Contact
 import uuid
+import re
 
 class ContactManager:
     def __init__(self):
         self.contacts = []
         
-    def add(self, contact):
-        self.contacts.append(contact)
+    def add_contact(self, first_name, last_name, number=None, email=None, tags=[]):
+        new_contact = Contact(first_name, last_name, number, email, tags)
+        self.contacts.append(new_contact)
         
-    def get(self, first_name, last_name):
+    def get_contact(self, first_name, last_name):
         for contact in self.contacts:
             if contact.first_name == first_name and contact.last_name == last_name:
                 return contact
+        return None
+            
+    def get_contacts(self):
+        return self.contacts
         
     def remove(self, first_name, last_name):
         for i in range(len(self.contacts - 1)):
             if self.contacts[i].first_name == first_name and self.contacts[i].last_name == last_name:
                 removed = self.contacts.pop(i)
                 
-    def update(self, first_name, last_name, number=None, email=None, tags=[]):
+    def update(self, first_name, last_name, number=None, email=None, tags=None):
         # if invalid args, return error
-        if not first_name and not last_name:
+        if not first_name or not last_name:
             return "ERROR: First and and last name required."
         
         # find contact
@@ -70,16 +76,65 @@ class ContactManager:
             
         print("Wrote contact info to", file_name)
         
-    def display(self):
+    def validate_name(self, name):
+        name_pattern = re.compile("^[A-Za-z ]+$")
+        if not re.fullmatch(name_pattern, name):
+            return False
+        return True
+    
+    def validate_number(self, number):
+        number_pattern = re.compile("[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]")
+        if not re.fullmatch(number_pattern, number):
+            return False
+        return True
+    
+    def validate_email(self, email):
+        email_pattern = re.compile(".*@.*\\..*")
+        if not re.fullmatch(email_pattern, email):
+            return False
+        return True
+        
+    def format_number(self, number):
+        number_list = [d for d in str(number)]
+            
+        # construct number with formatting
+        return "(" + number_list[0] + number_list[1] + number_list[2] + ") " + number_list[3] + number_list[4] + number_list[5] + " " + number_list[6] + number_list[7] + number_list[8] + number_list[9]
+        
+    def display_one(self, first_name, last_name):
+        contact = self.get_contact(first_name, last_name)
+        if not contact:
+            return -1
+        print("{0: <12} | {1: <12} | {2: <14} | {3: <12}".format("First Name", "Last Name", "Phone Number", "Email"))
+        print("-" * 70)
+        for contact in self.contacts:
+            if not contact.number:
+                number = "Not set"
+            else:
+                number = self.format_number(contact.number)
+                
+            email = ""
+            if not contact.email:
+                email = "Not set"
+            else:
+                email = contact.email
+        print("{0: <12} | {1: <12} | {2: <14} | {3: <12}".format(contact.first_name, contact.last_name, number, email))
+        
+    def display_all(self):
         # title
         print(("#" * 31) + "CONTACTS" + ("#" * 31))
         # header
         print("{0: <12} | {1: <12} | {2: <14} | {3: <12}".format("First Name", "Last Name", "Phone Number", "Email"))
         print("-" * 70)
         for contact in self.contacts:
-            number_list = [d for d in str(contact.number)]
-            
-            # construct number with formatting
-            number = "(" + number_list[0] + number_list[1] + number_list[2] + ") " + number_list[3] + number_list[4] + number_list[5] + " " + number_list[6] + number_list[7] + number_list[8] + number_list[9]
-            print("{0: <12} | {1: <12} | {2: <14} | {3: <12}".format(contact.first_name, contact.last_name, number, contact.email))
+            if not contact.number:
+                number = "Not set"
+            else:
+                number = self.format_number(contact.number)
+                
+            email = ""
+            if not contact.email:
+                email = "Not set"
+            else:
+                email = contact.email
+            print("{0: <12} | {1: <12} | {2: <14} | {3: <12}".format(contact.first_name, contact.last_name, number, email))
         print("#" * 70)
