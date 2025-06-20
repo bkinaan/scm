@@ -15,7 +15,7 @@ Recursive Functions
 Advanced Regular Expressions - 1
 Advanced Regular Expressions - 2
 Check whether a string starts and ends with the same character or not
-Password validation in Python
+_Password validation in Python_
 Extracting email addresses using regular expressions in Python
 Validating UPI IDs using Regular Expressions
 
@@ -24,13 +24,12 @@ Validating UPI IDs using Regular Expressions
 Inheritance
 Encapsulation
 Polymorphism
-Data Abstaraction
 Operator Overloading
 
 ## Iterables, Iterators and Generators
 
 Difference between iterable and iterator
-Python **iter**() and **next**()
+Python `**iter**()` and `**next**()`
 Generators in Python
 
 ## Closures and Decorators
@@ -74,3 +73,7 @@ Within `tests/test_manager`, **UnitTests** are utlized to ensure the program is 
 (how to define a class as a decorator?)
 
 Within `contacts/models.py`, the Contact class includes an `@total_ordering` **decorator** which provides the remaining comparator functions using the provided `__eq__` and `__lt__` functions.
+
+## Data Abstraction
+
+When creating a contact in main using the manager, the process of creating the contact using the constructor is **abstracted** and done in the manager class instead.
