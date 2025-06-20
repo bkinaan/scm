@@ -76,29 +76,11 @@ class ContactManager:
             
         print("Wrote contact info to", file_name)
         
-    def validate_name(self, name):
-        name_pattern = re.compile("^[A-Za-z ]+$")
-        if not re.fullmatch(name_pattern, name):
-            return False
-        return True
-    
-    def validate_number(self, number):
-        number_pattern = re.compile("[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]")
-        if not re.fullmatch(number_pattern, number):
-            return False
-        return True
-    
-    def validate_email(self, email):
-        email_pattern = re.compile(".*@.*\\..*")
-        if not re.fullmatch(email_pattern, email):
-            return False
-        return True
-        
     def format_number(self, number):
         number_list = [d for d in str(number)]
             
         # construct number with formatting
-        return "(" + number_list[0] + number_list[1] + number_list[2] + ") " + number_list[3] + number_list[4] + number_list[5] + " " + number_list[6] + number_list[7] + number_list[8] + number_list[9]
+        return "(" + number_list[0] + number_list[1] + number_list[2] + ") " + number_list[3] + number_list[4] + number_list[5] + "-" + number_list[6] + number_list[7] + number_list[8] + number_list[9]
         
     def display_one(self, first_name, last_name):
         contact = self.get_contact(first_name, last_name)

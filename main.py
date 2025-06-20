@@ -1,4 +1,4 @@
-from contacts import Contact, ContactManager
+from contacts import Contact, ContactManager, validators as v
 import sys
 
 def main():
@@ -37,7 +37,7 @@ def main():
                 print("ERROR: First name required. Contact not created.")
                 continue
             else:
-                if not manager.validate_name(first_name):
+                if not v.validate_name(first_name):
                     print("ERROR: First name can only contain alpahbet characters and spaces. Contact not created.")
                     continue
                     
@@ -45,7 +45,7 @@ def main():
                 print("ERROR: Last name required. Contact not created.")
                 continue
             else:
-                if not manager.validate_name(last_name):
+                if not v.validate_name(last_name):
                     print("ERROR: Last name can only contain alpahbet characters and spaces. Contact not created.")
                     continue
                 
@@ -53,14 +53,14 @@ def main():
             if number == "":
                 number = None
             else:
-                if not manager.validate_number(number):
+                if not v.validate_number(number):
                     print("ERROR: Number must contain only 10 digits. Contact not created.")
                     continue
             
             if email == "":
                 email = None
             else:
-                if not manager.validate_email(email):
+                if not v.validate_email(email):
                     print("ERROR: Email must be in the format of user@site.com. Contact not created.")
                     continue
             
@@ -90,7 +90,7 @@ def main():
                 
                 if choice == "1":
                     new_first_name = input("Enter the new first name: ")
-                    if not manager.validate_name(new_first_name):
+                    if not v.validate_name(new_first_name):
                         print("ERROR: First name can only contain alpahbet characters and spaces. Contact not updated.")
                         continue
                     contacts = manager.get_contacts()
@@ -100,7 +100,7 @@ def main():
                     contacts.append(edit_contact)
                 elif choice == "2":
                     new_last_name = input("Enter the new last name: ")
-                    if not manager.validate_name(new_last_name):
+                    if not v.validate_name(new_last_name):
                         print("ERROR: Last name can only contain alpahbet characters and spaces. Contact not updated.")
                         continue
                     contacts = manager.get_contacts()
@@ -110,7 +110,7 @@ def main():
                     contacts.append(edit_contact)
                 elif choice == "3":
                     new_number = input("Enter the new number: ")
-                    if not manager.validate_number(new_number):
+                    if not v.validate_number(new_number):
                         print("ERROR: Number must contain 10 digits. Contact not updated.")
                         continue
                     contacts = manager.get_contacts()
@@ -120,7 +120,7 @@ def main():
                     contacts.append(edit_contact)
                 elif choice == "4":
                     new_email = input("Enter the new email: ")
-                    if not manager.validate_email(new_email):
+                    if not v.validate_email(new_email):
                         print("ERROR: Email must be in the format of user@site.com. Contact not updated.")
                         continue
                     contacts = manager.get_contacts()
