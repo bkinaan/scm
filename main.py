@@ -3,6 +3,7 @@ import sys
 
 def main():
     manager = ContactManager()
+    manager.load_contacts()
     
     while True:
         print("""
@@ -15,7 +16,8 @@ def main():
               2) Add contact
               3) Edit contact
               4) Remove contact
-              5) Exit
+              5) Save contacts
+              *) Exit
               -------------------
               """)
         choice = input("Choose an option: ")
@@ -144,6 +146,8 @@ def main():
                 contacts = manager.get_contacts()
                 idx = contacts.index(contact)
                 edit_contact = contacts.pop(idx)    
+        elif choice == "5":
+            manager.save_contacts()
         else:
             sys.exit()
             

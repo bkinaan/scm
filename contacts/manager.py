@@ -1,7 +1,6 @@
 import json
 from .models import Contact
-import uuid
-import re
+import json
 
 class ContactManager:
     def __init__(self):
@@ -120,3 +119,29 @@ class ContactManager:
                 email = contact.email
             print("{0: <12} | {1: <12} | {2: <14} | {3: <12}".format(contact.first_name, contact.last_name, number, email))
         print("#" * 70)
+        
+    def save_contacts(self, filename="contacts_savefile.json"):
+        # convert contacts to dictionary
+        output = []
+        for contact in self.contacts:
+            contact_dict = {}
+            contact_dict["First Name"] = contact.first_name
+            contact_dict["Last Name"] = contact.last_name
+            contact_dict["Number"] = contact.number
+            contact_dict["Email"] = contact.email
+            contact_dict["Tags"] = contact.tags
+            
+            output.append(contact_dict)
+            
+        # save to file
+        with open(filename, "w") as f:
+            json.dump(output, f, indent=4)
+            print("Contacts saved to", filename)
+            
+    def load_contacts(self, filename="contacts_savefile.json"):
+        # load contacts from file
+        with open(filename, "r") as f:
+            contacts_json = json.load(f)
+            for contact in contacts_json:
+                self.add_contact(contact["First Name"], contact["Last Name"], contact["Number"], contact["Email"], contact["Tags"])
+                print("Contacts loaded from", filename)
