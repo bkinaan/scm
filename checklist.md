@@ -12,7 +12,6 @@ Recursive Functions
 
 ## Regular Expressions
 
-Advanced Regular Expressions - 1
 Advanced Regular Expressions - 2
 Check whether a string starts and ends with the same character or not
 _Password validation in Python_
@@ -77,3 +76,7 @@ Within `contacts/models.py`, the Contact class includes an `@total_ordering` **d
 ## Data Abstraction
 
 When creating a contact in main using the manager, the process of creating the contact using the constructor is **abstracted** and done in the manager class instead.
+
+## Advanced Regular Expressions - 1
+
+Under the contacts directory, validators.py contains regex validations when adding or updating information for a contact.
