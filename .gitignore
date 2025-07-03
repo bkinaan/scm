@@ -212,4 +212,5 @@ pyrightconfig.json
 test.py
 
 # ignore all savefile
-*_savefile.json
+*savefile*.json
+*savefile*.ndjson
