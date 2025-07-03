@@ -1,6 +1,7 @@
 import json
 from .models import Contact
 import json
+import os
 
 class ContactManager:
     def __init__(self):
@@ -138,10 +139,67 @@ class ContactManager:
             json.dump(output, f, indent=4)
             print("Contacts saved to", filename)
             
-    def load_contacts(self, filename="contacts_savefile.json"):
-        # load contacts from file
+    def save_contacts_ndjson(self, filename="contacts_savefile.ndjson"):
+        """Save contacts contained in the contacts list to a file in the NDJSON format.
+        This format is required for using the read_data function.
+
+        Args:
+            filename (str, optional): The path/filname that contacts will be saved to.
+            Defaults to "contacts_savefile.ndjson".
+        """
+        
+        # convert contacts to dictionary
+        with open(filename, "w") as f:
+            for contact in self.contacts:
+                contact_dict = {}
+                contact_dict["First Name"] = contact.first_name
+                contact_dict["Last Name"] = contact.last_name
+                contact_dict["Number"] = contact.number
+                contact_dict["Email"] = contact.email
+                contact_dict["Tags"] = contact.tags
+                
+                # writes contacts directly and deliminates with a new line character
+                f.write(json.dumps(contact_dict) + "\n")
+            
+            print("Contacts saved in NDJSON format to", filename)
+            
+    def load_contacts(self, filename):
+        """Reads contacts from a NDJSON formatted file. Uses a generator to improve
+        performance for large files.
+
+        Args:
+            filename (str): File name of the file that contains contacts
+
+        Yields:
+            iterator: a single contact
+        """
         with open(filename, "r") as f:
-            contacts_json = json.load(f)
-            for contact in contacts_json:
-                self.add_contact(contact["First Name"], contact["Last Name"], contact["Number"], contact["Email"], contact["Tags"])
+            for line in f:
+                yield json.loads(line)
+    
+    def read_data_no_gen(self, filename):
+        """Reads contacts from a JSON file using only an iterator.
+
+        Args:
+            filename (str): Filename of the file that contains the contacts
+            
+        Returns:
+            List: The entire list of contacts
+        """
+        with open(filename, "r") as f:
+            return json.load(f)
+                
+            
+    def load_contacts_no_gen(self, filename="contacts_savefile.json"):
+        """_summary_
+
+        Args:
+            filename (str, optional): _description_. Defaults to "contacts_savefile.json".
+        """
+        if os.path.exists(filename):
+            # load contacts from file
+            with open(filename, "r") as f:
+                contacts_json = json.load(f)
+                for contact in contacts_json:
+                    self.add_contact(contact["First Name"], contact["Last Name"], contact["Number"], contact["Email"], contact["Tags"])
                 print("Contacts loaded from", filename)
